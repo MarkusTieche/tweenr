@@ -31,7 +31,7 @@ function Tweenable(tween={
       for (const property in tween.to) 
       {
         // const delta = (tween.to[property] - tween.from[property]);
-        // latest[property] = tween.from[property] + easing[tween.ease](progress) * (tween.to[property] - tween.from[property]);
+        latest[property] = tween.from[property] + easing[tween.ease](progress) * (tween.to[property] - tween.from[property]);
       }
       
       if (tween.onUpdate)
