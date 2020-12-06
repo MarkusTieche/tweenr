@@ -7,7 +7,7 @@
 ////////
 
 
-function tweenable(tween={
+function Tweenable(tween={
   from = {},
   to = {},
   duration = 300,
@@ -15,14 +15,12 @@ function tweenable(tween={
   onUpdate
 } = {}) {
   
-
   //ADD ALL POSSIBLE TRANSFORMS
   var latest = Object.assign({}, tween.from);
   
-  this.update = function(callback){
+  this.update = function(callback,t){
     // const delta = tween.to - tween.from;
     const startTime = performance.now();
-
     requestAnimationFrame(update);
     
     function update(currentTime) {
@@ -30,44 +28,47 @@ function tweenable(tween={
       const progress = Math.min(elapsed / tween.duration, 1);
 
       //UPDATE ONLY VALUES THAT CHANGE
-      for (const property in tween.to) {
-
-        const delta = (tween.to[property] - tween.from[property]);
-        latest[property] = tween.from[property] + easing[tween.ease](progress) * delta;
+      for (const property in tween.to) 
+      {
+        // const delta = (tween.to[property] - tween.from[property]);
+        // latest[property] = tween.from[property] + easing[tween.ease](progress) * (tween.to[property] - tween.from[property]);
       }
       
-        if (tween.onUpdate)tween.onUpdate(latest);
-    
-        if (progress < 1) {
-          requestAnimationFrame(update);
-        }
-        else
-        {
-          //TWEEN FINISHED
-          //APPLY TWEEN
-          //APPLY ONLY VALUES THAT HAVE CHANGED
-          for (const property in tween.to) 
-          {
-            tween.from[property] = tween.to[property];
-          }
-          //CALL CALLBACK
-          callback();
+      if (tween.onUpdate)
+      {
+        tween.onUpdate(latest)
+      };
+  
+      if (progress < 1) {
+        requestAnimationFrame(update);
       }
+      else
+      {
+        //TWEEN FINISHED
+        //APPLY TWEEN
+        //APPLY ONLY VALUES THAT HAVE CHANGED
+        for (const property in tween.to) 
+        {
+          tween.from[property] = tween.to[property];
+        };
+        //CALL CALLBACK TO FINISH
+        callback();
+      };
+
     }
   }
 
-  this.tween = function({from,to,duration,ease} = {}) {
+  this.tween = function({from,to,duration,ease} = "") {
     tween.ease = ease || tween.ease
     tween.duration = duration || tween.duration;
     tween.to = to || tween.to;
-    
+
     for (const property in from) 
     {
       tween.from[property] = from[property];
     }
 
-    
-    return new Promise(resolve => { this.update(() => {resolve();})});
+    return new Promise(resolve => { this.update(() => {resolve();},"uskdcb")});
   }
 }
 var easing = {

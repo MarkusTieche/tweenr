@@ -5,7 +5,7 @@ function init()
 {
   const ball = document.getElementById("circle");
 
-  var t = new tweenable({
+  var tweenable = new Tweenable({
       from: {x:0,y:0,scale:1},
       to: {x:100},
       ease:"easeInOutQuart",
@@ -15,14 +15,16 @@ function init()
       }
     });
 
+
   asyncCall()
-  
   async function asyncCall() {
     console.log('calling')
     
     // const result = await t.tween().then(() => console.log('All done!'));
-    const result = await t.tween()
-    await t.tween({from:{scale:2},to:{scale:1},duration:1000})
+    const result = await tweenable.tween()
+    // await tweenable.tween({from:{scale:2},to:{scale:1},duration:2000})
+    await tweenable.tween({to:{x:50},duration:2000})
+    await tweenable.tween()
     // await t.tween().then(() => console.log('All done!'));
   }
 }
