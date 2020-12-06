@@ -4,21 +4,14 @@ init()
 function init()
 {
   const ball = document.getElementById("circle");
-  // var t = tween({
-  //   from: 0,
-  //   to: 300,
-  //   duration: 500,
-  //   onUpdate: v => {
-  //     ball.style.transform = `translateX(${v}px) translateZ(0)`;
-  //   }
-  // });
-  // console.log(t)
+
   var t = new tweenable({
-      from: 0,
-      to: 300,
-      duration: 500,
-      onUpdate: x => {
-        ball.style.transform = `translateX(${x}px) translateZ(0)`;
+      from: {x:0,y:0,scale:1},
+      to: {x:100},
+      ease:"easeInOutQuart",
+      duration: 1000,
+      onUpdate: ({x,y,scale}) => {
+        ball.style.transform = `translateX(${x}px) translateY(${y}px) scale(${scale})`;
       }
     });
 
@@ -29,7 +22,7 @@ function init()
     
     // const result = await t.tween().then(() => console.log('All done!'));
     const result = await t.tween()
-    await t.tween({to:500,duration:2000}).then(() => console.log('All done!'));
-    // expected output: "resolved"
+    await t.tween({from:{scale:2},to:{scale:1},duration:1000})
+    // await t.tween().then(() => console.log('All done!'));
   }
 }
