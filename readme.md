@@ -1,26 +1,50 @@
 # TWEENR
 
+### SINGLE TWEEN
 ```javascript
-const ball = document.getElementById("circle");
+ball = document.getElementById("circle");
 
-  var t = new tweenable({
-      from: {x:0,y:0,scale:1},
+var tweenable = new Tweenable({
+    from: {x:0},
+    to: {x:100},
+    ease:"linear",
+    duration: 1000,
+    onUpdate: ({x}) => {
+      ball.style.transform = `translateX(${x}px) translateY(0px)`;
+    }
+  }).tween().then(() => console.log('All done!'))
+```
+
+### CHAINED TWEEN
+```javascript
+ball = document.getElementById("circle");
+
+//START TWEEN
+tweenable = new Tweenable({
+      from: {x:0,scale:1},
       to: {x:100},
-      ease:"easeInOutQuart",
+      ease:"linear",
       duration: 1000,
-      onUpdate: ({x,y,scale}) => {
-        ball.style.transform = `translateX(${x}px) translateY(${y}px) scale(${scale})`;
+      onUpdate: ({x,scale}) => {
+        ball.style.transform = `translateX(${x}px) translateY(0px) scale(${scale})`;
       }
     });
 
-  asyncCall()
-  
-  async function asyncCall() {
-    console.log('calling')
-    
-    // const result = await t.tween().then(() => console.log('All done!'));
-    const result = await t.tween()
-    await t.tween({from:{scale:2},to:{scale:1},duration:1000})
-    await t.tween({to:{x:2},duration:1000,ease:"linear"}).then(() => console.log('All done!'));
-  }
+    if( tweenable.isRunning()){return;} //DONT RUN THE SAME TWEEN SIMULTANIOUS
+    tweenable.tween().then(() =>tweenable.tween({to:{x:200,scale:2},duration:1000})).then(() => console.log('All done!'))
 ```
+
+### EASING
+  - linear
+  - easeInQuad
+  - easeOutQuad
+  - easeInOutQuad
+  - easeInCubic
+  - easeOutCubic
+  - easeInOutCubic
+  - easeInQuart
+  - easeOutQuart
+  - easeInOutQuart
+  - easeInQuint
+  - easeOutQuint
+  - easeInOutQuint

@@ -1,11 +1,11 @@
 /////////
-//
+//VERSION:0.1
 //https://mattperry.is/writing-code/how-to-write-a-tween -> CONCEPT
 //https://github.com/jeremyckahn/shifty -> CODE CONCEPT
 //https://raw.githubusercontent.com/chenglou/tween-functions/master/index.js -> EASING FUNCTIONS
 //
 ////////
-
+var isRunning = false;
 
 function Tweenable(tween={
   from = {},
@@ -17,26 +17,27 @@ function Tweenable(tween={
   
   //ADD ALL POSSIBLE TRANSFORMS
   var latest = Object.assign({}, tween.from);
-  
-  this.update = function(callback,t){
+    isRunning = false;
+
+  this.update = function(callback,currentTween){
     // const delta = tween.to - tween.from;
     const startTime = performance.now();
     requestAnimationFrame(update);
-    
+
+    isRunning = true;
     function update(currentTime) {
       const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / tween.duration, 1);
+      const progress = Math.min(elapsed / currentTween.duration, 1);
 
       //UPDATE ONLY VALUES THAT CHANGE
-      for (const property in tween.to) 
+      for (const property in currentTween.to) 
       {
         // const delta = (tween.to[property] - tween.from[property]);
-        latest[property] = tween.from[property] + easing[tween.ease](progress) * (tween.to[property] - tween.from[property]);
+        latest[property] = currentTween.from[property] + easing[currentTween.ease](progress) * (currentTween.to[property] - currentTween.from[property]);
       }
-      
-      if (tween.onUpdate)
+      if (currentTween.onUpdate)
       {
-        tween.onUpdate(latest)
+        currentTween.onUpdate(latest)
       };
   
       if (progress < 1) {
@@ -44,33 +45,44 @@ function Tweenable(tween={
       }
       else
       {
-        //TWEEN FINISHED
-        //APPLY TWEEN
-        //APPLY ONLY VALUES THAT HAVE CHANGED
-        for (const property in tween.to) 
-        {
-          tween.from[property] = tween.to[property];
-        };
+        isRunning = false;
         //CALL CALLBACK TO FINISH
         callback();
       };
-
     }
   }
 
-  this.tween = function({from,to,duration,ease} = "") {
-    tween.ease = ease || tween.ease
-    tween.duration = duration || tween.duration;
-    tween.to = to || tween.to;
+  this.isRunning = function(){return isRunning;}
 
-    for (const property in from) 
+  this.tween = function(newTween = {from,to,duration,ease,onUpdate} = tween) 
+  {
+    if(newTween.from)
     {
-      tween.from[property] = from[property];
+      //NEW START POSITION
+      for (const property in newTween.from) 
+      {
+        latest[property] = newTween.from[property];
+      }
+    }
+    else
+    {
+      //APPLY CURRENT POS AS START POSITION
+      newTween.from = {};
+      for (const property in latest) 
+      {
+        newTween.from[property] = latest[property];
+      }
     }
 
-    return new Promise(resolve => { this.update(() => {resolve();},"uskdcb")});
+    for (const property in tween) 
+    {
+      newTween[property] = newTween[property]||tween[property];
+    }
+
+    return new Promise((resolve,reject) => { this.update(() => {resolve();},newTween)})
   }
 }
+
 var easing = {
   // no easing, no acceleration
   linear: t => {
