@@ -1,6 +1,7 @@
 # TWEENR
 
 ### SINGLE TWEEN
+Moves from current position to target position
 ```javascript
 ball = document.getElementById("circle");
 
@@ -16,6 +17,7 @@ var tweenable = new Tweenable({
 ```
 
 ### CHAINED TWEEN
+Moves from current position to next position in chain, reset if restarted;
 ```javascript
 ball = document.getElementById("circle");
 
@@ -30,11 +32,11 @@ tweenable = new Tweenable({
       }
     });
 
-    if( tweenable.isRunning()){return;} //DONT RUN THE SAME TWEEN SIMULTANIOUS
+    if( tweenable.isRunning()){return;} //DON'T RUN THE SAME TWEEN SIMULTANIOUS
     tweenable.tween().then(() =>tweenable.tween({to:{x:200,scale:2},duration:1000})).then(() => console.log('All done!'))
 ```
 
-### EASING
+### EASING OPTIONS
   - linear
   - easeInQuad
   - easeOutQuad
