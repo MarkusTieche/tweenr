@@ -1,4 +1,5 @@
 # TWEENR
+Minimalistic Tweening Library for JS
 
 ### SINGLE TWEEN
 Moves from current position to target position
@@ -22,7 +23,7 @@ Moves from current position to next position in chain, reset if restarted;
 ball = document.getElementById("circle");
 
 //START TWEEN
-tweenable = new Tweenable({
+var tweenable = new Tweenable({
       from: {x:0,scale:1},
       to: {x:100},
       ease:"linear",

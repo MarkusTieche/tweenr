@@ -27,7 +27,8 @@ function Tweenable(tween={
     isRunning = true;
     function update(currentTime) {
       const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / currentTween.duration, 1);
+      // const progress = Math.min(elapsed / currentTween.duration, 1);
+      const progress = elapsed / currentTween.duration;
 
       //UPDATE ONLY VALUES THAT CHANGE
       for (const property in currentTween.to) 
