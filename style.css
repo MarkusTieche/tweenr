@@ -11,7 +11,7 @@ body
 
 #circle
 {
-    position: absolute;
+    position: relative;
     left: 100px;
     top:100px;
     width: 100px;
@@ -19,4 +19,17 @@ body
     border-radius: 50px;
     background-color: aqua;
     transform-origin: 50% 50%;
+}
+
+.multiline
+{
+    font-family:monospace;
+    position: relative;
+    background-color: rgba(33, 32, 32, 0.645);
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    white-space: pre-wrap;
+    top:200px;
+    color: white;
 }

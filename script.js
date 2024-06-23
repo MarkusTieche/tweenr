@@ -36,6 +36,5 @@ function chain()
     }
   });
 
-  if( tweenable.isRunning()){return;} //DONT RUN THE SAME TWEEN SIMULTANIOUS
-  tweenable.tween().then(() =>tweenable.tween({to:{x:200,scale:2},duration:2000})).then(() => console.log('All done!'))
+  tweenable.tween().then(() =>tweenable.tween({to:{x:100,scale:2},duration:2000})).then(() => console.log('All done!'))
 }

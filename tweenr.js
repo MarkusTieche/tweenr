@@ -1,5 +1,5 @@
 /////////
-//VERSION:0.1
+//VERSION:0.2
 //https://mattperry.is/writing-code/how-to-write-a-tween -> CONCEPT
 //https://github.com/jeremyckahn/shifty -> CODE CONCEPT
 //https://raw.githubusercontent.com/chenglou/tween-functions/master/index.js -> EASING FUNCTIONS
@@ -27,8 +27,7 @@ function Tweenable(tween={
     isRunning = true;
     function update(currentTime) {
       const elapsed = currentTime - startTime;
-      // const progress = Math.min(elapsed / currentTween.duration, 1);
-      const progress = elapsed / currentTween.duration;
+      const progress = Math.min(elapsed / currentTween.duration, 1);
 
       //UPDATE ONLY VALUES THAT CHANGE
       for (const property in currentTween.to) 

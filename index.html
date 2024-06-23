@@ -13,10 +13,21 @@
 </head>
 
 <body>
-  
+  <h2>Tweenr example</h2>
+  <button id="btn_tween">tween</button>
+  <button id="btn_chain">chain</button>
   <div id="circle"></div>
-<button id="btn_tween">tween</button>
-<button id="btn_chain">chain</button>
+<div id="code">
+  <p id="single" class="multiline">var tweenable = new Tweenable({
+      from: {x:0},
+      to: {x:100},
+      ease:"linear",
+      duration: 1000,
+      onUpdate: ({x}) => {
+          ball.style.transform = `translateX(${x}px) translateY(0px)`;}
+  }).tween().then(() => console.log('All done!'))
+  </p>
+</div>
  
 </body>
 <script src="tweenr.js"></script>
